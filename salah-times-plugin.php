@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Salah Times Plugin
- * Description: Fetch and manage salah times from a Ibrahim's remote API.
+ * Description: Fetch and manage salah times from Ibrahim's remote API.
  * Version: 1.0
  * Author: Abdur-Rahamn Bilal (MTWSNC)
  */
