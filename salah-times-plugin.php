@@ -24,6 +24,11 @@ register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook('fetch_salah_times_event');
 });
 
+// Admin page
+add_action('admin_menu', function () {
+    add_menu_page('Salah Times', 'Salah Times', 'manage_options', 'salah-times', 'salah_times_admin_page');
+});
+
 // Register settings
 add_action('admin_init', function () {
     register_setting('salah_times_settings', 'salah_times_fetch_days');
