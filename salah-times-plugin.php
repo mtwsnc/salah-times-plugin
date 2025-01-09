@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Salah Times Plugin
+ * Plugin URI: https://github.com/mtwsnc/salah-times-plugin
  * Description: Fetch and manage salah times from Ibrahim's remote API.
  * Version: 1.0
  * Author: Abdur-Rahamn Bilal (MTWSNC)
+ * Author URI: https://github.com/aramb-dev
  */
 
 if (!defined('ABSPATH')) {
@@ -15,18 +17,11 @@ define('SALAH_TIMES_API_URL', 'https://northerly-robin-8705.dataplicity.io/mtws-
 define('SALAH_TIMES_JSON_PATH', plugin_dir_path(__FILE__) . 'salah.json');
 
 // Register activation hook
-register_activation_hook(__FILE__, function () {
-    salah_times_schedule_dynamic_fetch();
-});
+register_activation_hook(__FILE__, 'salah_times_schedule_dynamic_fetch');
 
 // Register deactivation hook
 register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook('fetch_salah_times_event');
-});
-
-// Admin page
-add_action('admin_menu', function () {
-    add_menu_page('Salah Times', 'Salah Times', 'manage_options', 'salah-times', 'salah_times_admin_page');
 });
 
 // Register settings
@@ -136,12 +131,3 @@ function render_salah_times_table() {
 
     return $html;
 }
-
-// Define the function
-function salah_times_admin_page() {
-    // Your function code here
-    echo '<h1>Salah Times Admin Page</h1>';
-}
-
-// Hook the function to the admin_menu action
-add_action('admin_menu', 'salah_times_admin_page');
