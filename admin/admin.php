@@ -66,3 +66,6 @@ function salah_times_admin_page() {
     </script>
     <?php
 }
+
+// Hook the function to the admin_menu action
+add_action('admin_menu', 'salah_times_admin_page');

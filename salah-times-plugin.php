@@ -136,3 +136,12 @@ function render_salah_times_table() {
 
     return $html;
 }
+
+// Define the function
+function salah_times_admin_page() {
+    // Your function code here
+    echo '<h1>Salah Times Admin Page</h1>';
+}
+
+// Hook the function to the admin_menu action
+add_action('admin_menu', 'salah_times_admin_page');
