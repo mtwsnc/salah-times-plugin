@@ -16,6 +16,9 @@ if (!defined('ABSPATH')) {
 define('SALAH_TIMES_API_URL', 'https://northerly-robin-8705.dataplicity.io/mtws-iqaamah-times/all');
 define('SALAH_TIMES_JSON_PATH', plugin_dir_path(__FILE__) . 'salah.json');
 
+// Include the admin page file
+require_once plugin_dir_path(__FILE__) . 'admin/admin.php';
+
 // Register activation hook
 register_activation_hook(__FILE__, 'salah_times_schedule_dynamic_fetch');
 
