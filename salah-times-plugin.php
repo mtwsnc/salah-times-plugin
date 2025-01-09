@@ -98,3 +98,41 @@ function enqueue_fetch_salah_times_script() {
         wp_enqueue_script('fetch-salah-times', plugin_dir_url(__FILE__) . 'fetch-salah-times.js', ['jquery'], null, true);
     }
 }
+
+// Register the shortcode
+add_shortcode('salah_times_table', 'render_salah_times_table');
+
+function render_salah_times_table() {
+    $json_path = SALAH_TIMES_JSON_PATH;
+    if (!file_exists($json_path)) {
+        return '<p>No salah times data available.</p>';
+    }
+
+    $json_data = file_get_contents($json_path);
+    $salah_times = json_decode($json_data, true);
+
+    if (empty($salah_times)) {
+        return '<p>Invalid salah times data.</p>';
+    }
+
+    $html = '<table class="iqaamah-table">
+        <thead>
+            <tr>
+                <th>Prayer</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="iqaamahTableBody">';
+
+    foreach ($salah_times as $prayer => $time) {
+        $html .= '<tr>
+            <td>' . esc_html($prayer) . '</td>
+            <td>' . esc_html($time) . '</td>
+        </tr>';
+    }
+
+    $html .= '</tbody>
+    </table>';
+
+    return $html;
+}
