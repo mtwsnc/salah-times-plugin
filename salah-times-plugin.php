@@ -72,6 +72,8 @@ function salah_admin_page()
     <?php
 }
 
+
+
 add_action('admin_init', function () {
     register_setting('salah_plugin_settings_group', 'salah_plugin_settings', function ($input) {
         // Validate settings
@@ -80,6 +82,7 @@ add_action('admin_init', function () {
         return $input;
     });
 });
+
 
 
 // Enqueue admin scripts
@@ -93,6 +96,18 @@ add_action('admin_enqueue_scripts', function () {
     );
     wp_localize_script('salah-admin-js', 'salahAjax', ['ajaxUrl' => admin_url('admin-ajax.php')]);
 });
+
+// Add manual update button to the WordPress admin bar
+add_action('admin_bar_menu', function ($wp_admin_bar) {
+    if (current_user_can('manage_options')) {
+        $wp_admin_bar->add_node([
+            'id'    => 'manual-update',
+            'title' => 'Manual Update',
+            'href'  => '#',
+            'meta'  => ['class' => 'manual-update-button']
+        ]);
+    }
+}, 100);
 
 // AJAX handler for manual update
 add_action('wp_ajax_salah_manual_update', function () {

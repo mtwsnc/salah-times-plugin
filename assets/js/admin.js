@@ -1,13 +1,13 @@
 jQuery(document).ready(function ($) {
-  $("#manual-update").on("click", function () {
+  // Manual update via admin bar
+  $("#wpadminbar #manual-update").on("click", function (e) {
+    e.preventDefault();
     $.post(
       salahAjax.ajaxUrl,
       { action: "salah_manual_update" },
       function (response) {
         let result = JSON.parse(response);
-        $("#update-result").text(
-          result.success ? result.message : result.error
-        );
+        alert(result.success ? result.message : result.error);
       }
     );
   });
