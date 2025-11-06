@@ -18,6 +18,7 @@ include_once(SALAH_PLUGIN_DIR . 'includes/fetch-api.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/compare-json.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/cron-handler.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/prayer-times-display.php');
+include_once(SALAH_PLUGIN_DIR . 'includes/testing-page.php');
 
 // Add the manual update button to the admin bar
 add_action('admin_bar_menu', function ($wp_admin_bar) {
