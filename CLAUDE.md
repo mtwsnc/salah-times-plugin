@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a WordPress plugin that fetches and manages Islamic prayer (Salah) times from a remote API for the MTWS (Muslim Thinkers and Writers Society) website. The plugin stores prayer times locally and provides both manual and automated (CRON-based) updates.
+This is a WordPress plugin that fetches and manages Islamic prayer (Salah) times from a configurable API. The plugin provides:
+- Configurable API endpoint (no hardcoded URLs)
+- Public-facing prayer times display with current prayer highlighting
+- Real-time countdown to next prayer
+- Manual and automated (CRON-based) updates
+- API caching for performance
+- Admin tools for testing and cache management
 
 ## Architecture
 
@@ -12,16 +18,23 @@ The plugin follows a modular architecture with clear separation of concerns:
 
 - **Main plugin file** (`salah-times-plugin.php`): Entry point that handles WordPress hooks, admin UI, AJAX endpoints, and CRON scheduling
 - **Includes directory** (`includes/`): Core functionality modules
-  - `fetch-api.php`: Fetches prayer times from remote API and saves to `salah.json`
+  - `api-service.php`: API client class with caching, all prayer endpoints, and connection testing
+  - `fetch-api.php`: Fetches prayer times using API service and saves to `salah.json`
   - `compare-json.php`: Compares local and remote JSON data to detect differences
   - `cron-handler.php`: Handles CRON job execution based on configured fetch days
-- **Assets directory** (`assets/js/`): Frontend JavaScript for admin functionality
+  - `prayer-times-display.php`: Frontend display with shortcode, current prayer detection, and countdown logic
+- **Assets directory**:
+  - `assets/css/`: Responsive styles with dark mode support
+  - `assets/js/admin.js`: Admin panel AJAX functionality
+  - `assets/js/salah-countdown.js`: Real-time countdown timer and auto-refresh
 - **Data storage**: `salah.json` stores the fetched prayer times locally
 
 ### Key Data Flow
 
-1. **Manual Update**: Admin bar button → AJAX call → `salah_manual_update()` → `salah_fetch_api()` → Updates `salah.json`
-2. **Automated Update**: WordPress CRON → `salah_cron_job` hook → `salah_cron_handler_include()` → Checks if current day matches configured fetch days → `salah_fetch_api()` → Updates `salah.json`
+1. **Manual Update**: Admin bar button → AJAX call → `salah_manual_update()` → `Salah_API_Service::get_all_prayer_times()` → Updates `salah.json`
+2. **Automated Update**: WordPress CRON → `salah_cron_job` hook → `salah_cron_handler_include()` → Checks if current day matches configured fetch days → API service → Updates `salah.json`
+3. **Frontend Display**: Page renders → `[salah_times]` shortcode → Reads `salah.json` → Calculates current prayer & countdown → JavaScript updates every second → Auto-refresh at midnight
+4. **Caching**: API requests → Check transient cache (1 hour) → If expired, fetch from API → Store in cache → Return data
 
 ### Important Constants
 
@@ -58,9 +71,26 @@ Plugin settings stored in WordPress options table under `salah_plugin_settings`:
 
 ### Admin Interface
 
-- Admin menu page provides checkboxes for selecting fetch days and enabling CRON
-- Manual update button appears in WordPress admin bar for users with `manage_options` capability
-- AJAX response shows success/error message via JavaScript alert
+- **Settings Page** (Admin Menu → Salah Times):
+  - API base URL configuration (required)
+  - Location name for display
+  - Fetch days selection (which days to auto-update)
+  - CRON job enable/disable toggle
+  - Test API Connection button
+  - Clear API Cache button
+  - Shortcode usage instructions
+- **Admin Bar**: Manual update button for users with `manage_options` capability
+- **AJAX Responses**: Success/error messages via JavaScript alerts
+
+### Frontend Display
+
+- **Shortcode**: `[salah_times]` - Displays prayer times table on any page/post
+- **Features**:
+  - Current prayer highlighted in blue
+  - Countdown timer to next prayer (updates every second)
+  - Responsive design with dark mode support
+  - Automatic page refresh at midnight for new prayer times
+  - Handles page visibility changes (tab switching)
 
 ## WordPress-Specific Considerations
 
