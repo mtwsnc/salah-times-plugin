@@ -56,9 +56,11 @@ class Salah_Prayer_Times_Display
                     $time = $prayer_times['adhan'][$key];
                 }
             } else {
-                // Prayers use iqamah
-                if (isset($prayer_times['iqamah'][$key])) {
+                // Prayers use iqamah, fall back to adhan
+                if (isset($prayer_times['iqamah'][$key]) && $prayer_times['iqamah'][$key] !== null) {
                     $time = $prayer_times['iqamah'][$key];
+                } elseif (isset($prayer_times['adhan'][$key])) {
+                    $time = $prayer_times['adhan'][$key];
                 }
             }
 
@@ -105,10 +107,12 @@ class Salah_Prayer_Times_Display
                 continue; // Skip Sunrise for next prayer
             }
 
-            // Use iqamah time for prayers
+            // Use iqamah time for prayers, fall back to adhan
             $time = null;
-            if (isset($prayer_times['iqamah'][$key])) {
+            if (isset($prayer_times['iqamah'][$key]) && $prayer_times['iqamah'][$key] !== null) {
                 $time = $prayer_times['iqamah'][$key];
+            } elseif (isset($prayer_times['adhan'][$key])) {
+                $time = $prayer_times['adhan'][$key];
             }
 
             if ($time) {
@@ -195,7 +199,7 @@ class Salah_Prayer_Times_Display
                             $key = 'shurooq';
                         }
 
-                        // Get iqamah time (or adhan for sunrise)
+                        // Get iqamah time (or adhan as fallback)
                         $time = null;
 
                         if ($key === 'shurooq') {
@@ -204,9 +208,12 @@ class Salah_Prayer_Times_Display
                                 $time = $prayer_times['adhan'][$key];
                             }
                         } else {
-                            // For prayers, use iqamah time
+                            // For prayers, try iqamah first, fall back to adhan
                             if (isset($prayer_times['iqamah'][$key]) && $prayer_times['iqamah'][$key] !== null) {
                                 $time = $prayer_times['iqamah'][$key];
+                            } elseif (isset($prayer_times['adhan'][$key])) {
+                                // Fallback to adhan if iqamah is null
+                                $time = $prayer_times['adhan'][$key];
                             }
                         }
 
