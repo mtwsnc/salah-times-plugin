@@ -134,7 +134,55 @@ function salah_admin_page()
 
             <?php submit_button(); ?>
         </form>
+
+        <hr>
+
+        <h2>Tools</h2>
+        <p>
+            <button type="button" class="button" id="test-connection">Test API Connection</button>
+            <button type="button" class="button" id="clear-cache">Clear API Cache</button>
+        </p>
+        <div id="tools-message" style="margin-top: 10px;"></div>
+
+        <hr>
+
+        <h2>Usage Instructions</h2>
+        <p>To display prayer times on your site, use the shortcode:</p>
+        <code style="background: #f5f5f5; padding: 5px 10px; display: inline-block;">[salah_times]</code>
+        <p>Add this shortcode to any page or post to display the prayer times table.</p>
     </div>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('#test-connection').on('click', function() {
+            var $btn = $(this);
+            var $msg = $('#tools-message');
+            $btn.prop('disabled', true);
+            $msg.html('<p>Testing connection...</p>');
+
+            $.post(salahAjax.ajaxUrl, { action: 'salah_test_connection' }, function(response) {
+                $btn.prop('disabled', false);
+                if (response.success) {
+                    $msg.html('<p style="color: green;">✓ ' + response.data.message + '</p>');
+                } else {
+                    $msg.html('<p style="color: red;">✗ ' + response.data.message + '</p>');
+                }
+            });
+        });
+
+        $('#clear-cache').on('click', function() {
+            var $btn = $(this);
+            var $msg = $('#tools-message');
+            $btn.prop('disabled', true);
+            $msg.html('<p>Clearing cache...</p>');
+
+            $.post(salahAjax.ajaxUrl, { action: 'salah_clear_cache' }, function(response) {
+                $btn.prop('disabled', false);
+                $msg.html('<p style="color: green;">✓ ' + response.data.message + '</p>');
+            });
+        });
+    });
+    </script>
     <?php
 }
 
@@ -147,8 +195,34 @@ add_action('admin_menu', function () {
 add_action('wp_ajax_salah_manual_update', 'salah_manual_update');
 function salah_manual_update()
 {
-    salah_fetch_api();
-    wp_send_json_success(['message' => 'Salah times updated manually.']);
+    $result = salah_fetch_api();
+    if (isset($result['error'])) {
+        wp_send_json_error(['message' => $result['error']]);
+    } else {
+        wp_send_json_success(['message' => $result['success']]);
+    }
+}
+
+// AJAX handler for clearing cache
+add_action('wp_ajax_salah_clear_cache', 'salah_clear_cache');
+function salah_clear_cache()
+{
+    $api_service = new Salah_API_Service();
+    $api_service->clear_cache();
+    wp_send_json_success(['message' => 'API cache cleared successfully.']);
+}
+
+// AJAX handler for testing API connection
+add_action('wp_ajax_salah_test_connection', 'salah_test_connection');
+function salah_test_connection()
+{
+    $api_service = new Salah_API_Service();
+    $success = $api_service->test_connection();
+    if ($success) {
+        wp_send_json_success(['message' => 'API connection successful!']);
+    } else {
+        wp_send_json_error(['message' => 'Failed to connect to API. Please check your settings.']);
+    }
 }
 
 // Handle CRON scheduling
