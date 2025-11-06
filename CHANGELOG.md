@@ -5,6 +5,14 @@ All notable changes to the Salah Times Plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2025-11-06
+
+### Changed
+- Improved admin menu structure with submenu organization
+- Settings and Testing Page now appear as submenu items on hover
+- Added clock icon (dashicons-clock) to main Salah Times menu
+- Makes navigation more intuitive and cleaner
+
 ## [0.2.1] - 2025-11-06
 
 ### Added

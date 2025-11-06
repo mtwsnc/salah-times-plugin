@@ -3,7 +3,7 @@
  * Plugin Name: Salah Times Plugin
  * Plugin URI: https://github.com/mtwsnc/salah-times-plugin
  * Description: Display Islamic prayer times with configurable API, real-time countdown, and current prayer highlighting
- * Version: 0.2.1
+ * Version: 0.2.2
  * Author: Abdur-Rahman Bilal (MTWSNC)
  * Author URI: https://github.com/aramb-dev
  * Requires at least: 5.0
