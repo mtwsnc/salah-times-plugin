@@ -193,7 +193,7 @@ function salah_render_testing_page()
                     ?>
                         <tr>
                             <td><strong><?php echo esc_html($label); ?></strong></td>
-                            <td><code>/mtws-iqaamah-times/<?php echo esc_html($endpoint); ?></code></td>
+                            <td><code>/<?php echo esc_html($endpoint); ?></code></td>
                             <td>
                                 <button type="button" class="button button-small test-endpoint" data-endpoint="<?php echo esc_attr($endpoint); ?>">
                                     Test

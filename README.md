@@ -24,9 +24,9 @@ A WordPress plugin for displaying Islamic prayer times with real-time updates an
 
 ### Required Settings
 
-1. **API Base URL**: Enter the base URL for your prayer times API
-   - Example: `https://example.com`
-   - The plugin will append `/mtws-iqaamah-times/all` to fetch all prayer times
+1. **API Base URL**: Enter the base URL for your prayer times API (including `/api` if needed)
+   - Example: `https://example.com/api`
+   - The plugin will append endpoint paths like `/all`, `/fajr`, etc.
 
 2. **Location Name**: Display name for your location (e.g., "Durham", "New York")
 
@@ -63,17 +63,17 @@ The settings page includes helpful tools:
 
 ## API Endpoints
 
-The plugin supports the following API endpoints:
+The plugin supports the following API endpoints (appended to your base URL):
 
-- `/mtws-iqaamah-times/all` - Get all prayer times
-- `/mtws-iqaamah-times/fajr` - Get Fajr time
-- `/mtws-iqaamah-times/dhuhr` - Get Dhuhr time
-- `/mtws-iqaamah-times/asr` - Get Asr time
-- `/mtws-iqaamah-times/maghrib` - Get Maghrib time
-- `/mtws-iqaamah-times/isha` - Get Isha time
-- `/mtws-iqaamah-times/shurooq` - Get sunrise time
+- `/all` - Get all prayer times
+- `/fajr` - Get Fajr time
+- `/dhuhr` - Get Dhuhr time
+- `/asr` - Get Asr time
+- `/maghrib` - Get Maghrib time
+- `/isha` - Get Isha time
+- `/shurooq` - Get sunrise time
 
-All endpoints support an optional `date` parameter in ISO 8601 format.
+All endpoints support an optional `date` parameter in ISO 8601 format (YYYY-MM-DD).
 
 ## Technical Details
 

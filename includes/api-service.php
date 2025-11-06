@@ -20,7 +20,7 @@ class Salah_API_Service
      */
     public function get_all_prayer_times($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/all', $date);
+        return $this->make_request('all', $date);
     }
 
     /**
@@ -28,7 +28,7 @@ class Salah_API_Service
      */
     public function get_fajr($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/fajr', $date);
+        return $this->make_request('fajr', $date);
     }
 
     /**
@@ -36,7 +36,7 @@ class Salah_API_Service
      */
     public function get_dhuhr($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/dhuhr', $date);
+        return $this->make_request('dhuhr', $date);
     }
 
     /**
@@ -44,7 +44,7 @@ class Salah_API_Service
      */
     public function get_asr($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/asr', $date);
+        return $this->make_request('asr', $date);
     }
 
     /**
@@ -52,7 +52,7 @@ class Salah_API_Service
      */
     public function get_maghrib($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/maghrib', $date);
+        return $this->make_request('maghrib', $date);
     }
 
     /**
@@ -60,7 +60,7 @@ class Salah_API_Service
      */
     public function get_isha($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/isha', $date);
+        return $this->make_request('isha', $date);
     }
 
     /**
@@ -68,7 +68,7 @@ class Salah_API_Service
      */
     public function get_shurooq($date = null)
     {
-        return $this->make_request('mtws-iqaamah-times/shurooq', $date);
+        return $this->make_request('shurooq', $date);
     }
 
     /**
