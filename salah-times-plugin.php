@@ -193,7 +193,25 @@ function salah_admin_page()
 
 // Add admin page to the menu
 add_action('admin_menu', function () {
-    add_menu_page('Salah Times Plugin', 'Salah Times', 'manage_options', 'salah_times_plugin', 'salah_admin_page');
+    // Main menu item
+    add_menu_page(
+        'Salah Times Plugin',
+        'Salah Times',
+        'manage_options',
+        'salah_times_plugin',
+        'salah_admin_page',
+        'dashicons-clock'
+    );
+
+    // Add Settings as submenu (will show on hover)
+    add_submenu_page(
+        'salah_times_plugin',
+        'Salah Times Settings',
+        'Settings',
+        'manage_options',
+        'salah_times_plugin',
+        'salah_admin_page'
+    );
 });
 
 // AJAX handler for manual update

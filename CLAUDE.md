@@ -116,3 +116,7 @@ Plugin settings stored in WordPress options table under `salah_plugin_settings`:
   - `fix(api): handle timeout errors gracefully`
   - `refactor(admin): simplify settings page logic`
 - Commit messages should be concise and describe what was accomplished
+- **Co-Author**: When co-authoring commits, use:
+  ```
+  Co-Authored-By: MTWS Admin <tech@mtws.org>
+  ```
