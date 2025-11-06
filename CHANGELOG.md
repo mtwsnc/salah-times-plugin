@@ -5,6 +5,13 @@ All notable changes to the Salah Times Plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4.1] - 2025-11-06
+
+### Fixed
+- Added fallback to display Adhan times when Iqamah is null
+- Ensures all prayers are shown even if API returns null iqamah
+- Prevents only Sunrise from showing when iqamah data unavailable
+
 ## [0.2.4] - 2025-11-06
 
 ### Changed
