@@ -1,0 +1,91 @@
+name: Create Release Package
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Package Plugin
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from tag
+        id: get_version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          else
+            VERSION="dev-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Create plugin package
+        env:
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+        run: |
+          # Create temporary directory
+          mkdir -p salah-times-plugin
+
+          # Copy plugin files (exclude development files)
+          rsync -av --progress \
+            --exclude='.git*' \
+            --exclude='node_modules' \
+            --exclude='.DS_Store' \
+            --exclude='plan.md' \
+            --exclude='IMPLEMENTATION_STATUS.md' \
+            --exclude='.github' \
+            ./ salah-times-plugin/
+
+          # Create zip file
+          zip -r "salah-times-plugin-${VERSION}.zip" salah-times-plugin
+
+          # Create checksums
+          sha256sum "salah-times-plugin-${VERSION}.zip" > "salah-times-plugin-${VERSION}.zip.sha256"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: salah-times-plugin-${{ steps.get_version.outputs.VERSION }}
+          path: |
+            salah-times-plugin-*.zip
+            salah-times-plugin-*.zip.sha256
+          retention-days: 90
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get_version.outputs.VERSION }}
+        with:
+          files: |
+            salah-times-plugin-*.zip
+            salah-times-plugin-*.zip.sha256
+          body: |
+            ## Salah Times Plugin v${{ steps.get_version.outputs.VERSION }}
+
+            ### Installation
+            1. Download `salah-times-plugin-${{ steps.get_version.outputs.VERSION }}.zip`
+            2. Go to WordPress Admin → Plugins → Add New → Upload Plugin
+            3. Upload the zip file and activate
+            4. Configure settings at Admin Menu → Salah Times
+
+            ### What's Included
+            - Configurable API endpoint system
+            - Prayer times display with current prayer highlighting
+            - Real-time countdown timer
+            - Admin tools for testing and cache management
+            - Responsive design with dark mode support
+
+            ### Verification
+            SHA256 checksum is included in the release assets.
+
+            For full documentation, see [README.md](https://github.com/mtwsnc/salah-times-plugin/blob/main/README.md)
+          draft: false
+          prerelease: false

@@ -87,6 +87,39 @@ All endpoints support an optional `date` parameter in ISO 8601 format.
 
 For development guidelines and architecture details, see [CLAUDE.md](CLAUDE.md).
 
+### Building for Distribution
+
+#### Automated (GitHub Actions)
+
+The plugin automatically creates release packages when you push a version tag:
+
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+This will:
+- Create a zip package excluding development files
+- Generate SHA256 checksum
+- Create a GitHub release with downloadable assets
+
+#### Manual (Local Build)
+
+Use the included packaging script:
+
+```bash
+# Build with specific version
+./package.sh 1.2.0
+
+# Build with dev timestamp
+./package.sh
+```
+
+The script will create a `dist/` directory with:
+- `salah-times-plugin-{version}.zip` - Ready for WordPress upload
+- `salah-times-plugin-{version}.zip.sha256` - SHA256 checksum
+- `salah-times-plugin-{version}.zip.md5` - MD5 checksum
+
 ## Author
 
 **Abdur-Rahman Bilal (MTWSNC)**
