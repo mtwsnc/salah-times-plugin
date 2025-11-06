@@ -1,5 +1,9 @@
 name: Create Release Package
 
+permissions:
+  contents: write
+  packages: write
+
 on:
   push:
     tags:
@@ -61,7 +65,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get_version.outputs.VERSION }}
         with:
           files: |

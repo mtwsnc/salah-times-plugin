@@ -4,7 +4,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(chmod:*)",
-      "Bash(./package.sh test:*)"
+      "Bash(./package.sh test:*)",
+      "Bash(git tag:*)",
+      "Bash(git push:*)",
+      "Bash(gh run list:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
