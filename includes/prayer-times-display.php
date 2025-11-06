@@ -49,8 +49,20 @@ class Salah_Prayer_Times_Display
                 $key = 'shurooq';
             }
 
-            if (isset($prayer_times[$key])) {
-                $time = $prayer_times[$key];
+            $time = null;
+            if ($key === 'shurooq') {
+                // Sunrise uses adhan
+                if (isset($prayer_times['adhan'][$key])) {
+                    $time = $prayer_times['adhan'][$key];
+                }
+            } else {
+                // Prayers use iqamah
+                if (isset($prayer_times['iqamah'][$key])) {
+                    $time = $prayer_times['iqamah'][$key];
+                }
+            }
+
+            if ($time) {
                 $prayer_timestamps[$prayer] = strtotime($time);
             }
         }
@@ -90,17 +102,18 @@ class Salah_Prayer_Times_Display
         foreach ($this->prayer_order as $prayer) {
             $key = strtolower($prayer);
             if ($key === 'sunrise') {
-                $key = 'shurooq';
+                continue; // Skip Sunrise for next prayer
             }
 
-            if (isset($prayer_times[$key])) {
-                $time = $prayer_times[$key];
-                $timestamp = strtotime(date('Y-m-d') . ' ' . $time);
+            // Use iqamah time for prayers
+            $time = null;
+            if (isset($prayer_times['iqamah'][$key])) {
+                $time = $prayer_times['iqamah'][$key];
+            }
 
-                // Skip Sunrise as it's not a prayer time
-                if ($prayer !== 'Sunrise') {
-                    $prayer_timestamps[$prayer] = $timestamp;
-                }
+            if ($time) {
+                $timestamp = strtotime(date('Y-m-d') . ' ' . $time);
+                $prayer_timestamps[$prayer] = $timestamp;
             }
         }
 
@@ -117,9 +130,9 @@ class Salah_Prayer_Times_Display
         }
 
         // If no prayer found today, next is tomorrow's Fajr
-        if ($next_prayer === null && isset($prayer_times['fajr'])) {
+        if ($next_prayer === null && isset($prayer_times['iqamah']['fajr'])) {
             $next_prayer = 'Fajr';
-            $next_timestamp = strtotime('tomorrow ' . $prayer_times['fajr']);
+            $next_timestamp = strtotime('tomorrow ' . $prayer_times['iqamah']['fajr']);
         }
 
         if ($next_timestamp) {
@@ -174,12 +187,6 @@ class Salah_Prayer_Times_Display
             </div>
 
             <table class="salah-times-table">
-                <thead>
-                    <tr>
-                        <th>Prayer</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <?php foreach ($this->prayer_order as $prayer): ?>
                         <?php
@@ -188,16 +195,30 @@ class Salah_Prayer_Times_Display
                             $key = 'shurooq';
                         }
 
-                        if (!isset($prayer_times[$key])) {
+                        // Get iqamah time (or adhan for sunrise)
+                        $time = null;
+
+                        if ($key === 'shurooq') {
+                            // Sunrise only has adhan, no iqamah
+                            if (isset($prayer_times['adhan'][$key])) {
+                                $time = $prayer_times['adhan'][$key];
+                            }
+                        } else {
+                            // For prayers, use iqamah time
+                            if (isset($prayer_times['iqamah'][$key]) && $prayer_times['iqamah'][$key] !== null) {
+                                $time = $prayer_times['iqamah'][$key];
+                            }
+                        }
+
+                        if (!$time) {
                             continue;
                         }
 
-                        $time = $prayer_times[$key];
                         $is_current = ($current_prayer === $prayer);
                         $row_class = $is_current ? 'current-prayer' : '';
                         ?>
                         <tr class="<?php echo esc_attr($row_class); ?>">
-                            <td class="prayer-name"><?php echo esc_html($prayer); ?></td>
+                            <td class="prayer-name"><?php echo esc_html(strtoupper($prayer)); ?></td>
                             <td class="prayer-time"><?php echo esc_html($this->format_time($time)); ?></td>
                         </tr>
                     <?php endforeach; ?>

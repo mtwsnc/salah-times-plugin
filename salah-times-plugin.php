@@ -144,6 +144,7 @@ function salah_admin_page()
 
         <h2>Tools</h2>
         <p>
+            <button type="button" class="button button-primary" id="manual-update-btn">Manual Update</button>
             <button type="button" class="button" id="test-connection">Test API Connection</button>
             <button type="button" class="button" id="clear-cache">Clear API Cache</button>
         </p>
@@ -159,6 +160,25 @@ function salah_admin_page()
 
     <script>
     jQuery(document).ready(function($) {
+        $('#manual-update-btn').on('click', function() {
+            var $btn = $(this);
+            var $msg = $('#tools-message');
+            $btn.prop('disabled', true).text('Updating...');
+            $msg.html('<p>Fetching prayer times from API...</p>');
+
+            $.post(salahAjax.ajaxUrl, { action: 'salah_manual_update' }, function(response) {
+                $btn.prop('disabled', false).text('Manual Update');
+                if (response.success) {
+                    $msg.html('<p style="color: green;">✓ ' + response.data.message + '</p>');
+                } else {
+                    $msg.html('<p style="color: red;">✗ ' + response.data.message + '</p>');
+                }
+            }).fail(function() {
+                $btn.prop('disabled', false).text('Manual Update');
+                $msg.html('<p style="color: red;">✗ Failed to update. Please try again.</p>');
+            });
+        });
+
         $('#test-connection').on('click', function() {
             var $btn = $(this);
             var $msg = $('#tools-message');
