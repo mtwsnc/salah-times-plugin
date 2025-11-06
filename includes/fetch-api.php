@@ -1,8 +1,16 @@
 <?php
 function salah_fetch_api()
 {
-    // Fetch data from API
-    $api_url = 'https://northerly-robin-8705.dataplicity.io/mtws-iqaamah-times/all';
+    // Get configured API base URL
+    $options = get_option('salah_plugin_settings', ['api_base_url' => '']);
+    $api_base_url = $options['api_base_url'];
+
+    if (empty($api_base_url)) {
+        return ['error' => 'API base URL not configured. Please configure in plugin settings.'];
+    }
+
+    // Construct API endpoint URL
+    $api_url = trailingslashit($api_base_url) . 'mtws-iqaamah-times/all';
     $response = wp_remote_get($api_url);
 
     if (is_wp_error($response)) {

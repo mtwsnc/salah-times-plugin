@@ -27,7 +27,7 @@ The plugin follows a modular architecture with clear separation of concerns:
 
 - `SALAH_PLUGIN_DIR`: Plugin directory path
 - `SALAH_JSON_FILE`: Path to local salah.json file
-- API endpoint: `https://northerly-robin-8705.dataplicity.io/mtws-iqaamah-times/all`
+- API endpoint: Configurable via plugin settings (base URL + `/mtws-iqaamah-times/all`)
 
 ## Development Workflow
 
@@ -43,6 +43,8 @@ Since this is a WordPress plugin, it must be tested in a WordPress environment:
 ### Key Configuration
 
 Plugin settings stored in WordPress options table under `salah_plugin_settings`:
+- `api_base_url`: Base URL for the prayer times API (required)
+- `location_name`: Display name for the location
 - `fetch_days`: Array of day indices (0=Sunday, 6=Saturday) when CRON should fetch
 - `cron_enabled`: Boolean to enable/disable daily CRON job
 

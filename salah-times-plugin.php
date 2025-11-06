@@ -46,6 +46,8 @@ add_action('admin_init', function () {
     register_setting('salah_plugin_settings_group', 'salah_plugin_settings', function ($input) {
         $input['fetch_days'] = array_map('intval', $input['fetch_days'] ?? []);
         $input['cron_enabled'] = !empty($input['cron_enabled']);
+        $input['api_base_url'] = esc_url_raw($input['api_base_url'] ?? '');
+        $input['location_name'] = sanitize_text_field($input['location_name'] ?? '');
         return $input;
     });
 });
@@ -54,9 +56,16 @@ add_action('admin_init', function () {
 function salah_admin_page()
 {
     // Get saved settings
-    $options = get_option('salah_plugin_settings', ['fetch_days' => [], 'cron_enabled' => false]);
+    $options = get_option('salah_plugin_settings', [
+        'fetch_days' => [],
+        'cron_enabled' => false,
+        'api_base_url' => '',
+        'location_name' => ''
+    ]);
     $fetch_days = $options['fetch_days'];
     $cron_enabled = $options['cron_enabled'];
+    $api_base_url = $options['api_base_url'];
+    $location_name = $options['location_name'];
     $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     ?>
@@ -65,6 +74,26 @@ function salah_admin_page()
         <form method="post" action="options.php">
             <?php settings_fields('salah_plugin_settings_group'); ?>
             <?php do_settings_sections('salah_plugin_settings_group'); ?>
+
+            <h2>API Configuration</h2>
+            <table class="form-table">
+                <tr>
+                    <th scope="row"><label for="api_base_url">API Base URL</label></th>
+                    <td>
+                        <input type="url" id="api_base_url" name="salah_plugin_settings[api_base_url]"
+                               value="<?php echo esc_attr($api_base_url); ?>" class="regular-text" required>
+                        <p class="description">Enter the base URL for the prayer times API (e.g., https://example.com)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="location_name">Location Name</label></th>
+                    <td>
+                        <input type="text" id="location_name" name="salah_plugin_settings[location_name]"
+                               value="<?php echo esc_attr($location_name); ?>" class="regular-text">
+                        <p class="description">Display name for your location (e.g., Durham, NYC)</p>
+                    </td>
+                </tr>
+            </table>
 
             <h2>Fetch Settings</h2>
             <p>Select the days to fetch Salah times:</p>
