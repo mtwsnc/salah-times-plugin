@@ -13,6 +13,7 @@ define('SALAH_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SALAH_JSON_FILE', SALAH_PLUGIN_DIR . 'salah.json');
 
 // Include necessary files
+include_once(SALAH_PLUGIN_DIR . 'includes/api-service.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/fetch-api.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/compare-json.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/cron-handler.php');
