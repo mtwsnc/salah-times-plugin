@@ -1,0 +1,163 @@
+/* Salah Times Display Styles */
+
+.salah-times-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.salah-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.salah-header h3 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.salah-date {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.salah-times-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.salah-times-table thead th {
+    background: #34495e;
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.salah-times-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+    transition: background-color 0.2s ease;
+}
+
+.salah-times-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.salah-times-table tbody tr.current-prayer {
+    background-color: #3498db;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.salah-times-table tbody tr.current-prayer:hover {
+    background-color: #2980b9;
+}
+
+.salah-times-table td {
+    padding: 14px 12px;
+}
+
+.prayer-name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.prayer-time {
+    text-align: right;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+}
+
+.salah-next-prayer {
+    padding: 15px;
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.salah-next-prayer strong {
+    color: #2e7d32;
+}
+
+.salah-next-prayer .countdown {
+    font-weight: 600;
+    color: #1b5e20;
+    font-variant-numeric: tabular-nums;
+}
+
+.salah-error {
+    padding: 15px;
+    background: #ffebee;
+    border-left: 4px solid #f44336;
+    border-radius: 4px;
+    color: #c62828;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .salah-times-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .salah-header h3 {
+        font-size: 20px;
+    }
+
+    .salah-times-table td {
+        padding: 10px 8px;
+    }
+
+    .prayer-name {
+        font-size: 15px;
+    }
+
+    .prayer-time {
+        font-size: 14px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .salah-times-container {
+        background: #2c3e50;
+        color: #ecf0f1;
+    }
+
+    .salah-header h3 {
+        color: #ecf0f1;
+    }
+
+    .salah-date {
+        color: #95a5a6;
+    }
+
+    .salah-times-table tbody tr {
+        border-bottom-color: #34495e;
+    }
+
+    .salah-times-table tbody tr:hover {
+        background-color: #34495e;
+    }
+
+    .salah-times-table tbody tr.current-prayer {
+        background-color: #2980b9;
+    }
+
+    .salah-times-table tbody tr.current-prayer:hover {
+        background-color: #3498db;
+    }
+}

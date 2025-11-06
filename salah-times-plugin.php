@@ -17,6 +17,7 @@ include_once(SALAH_PLUGIN_DIR . 'includes/api-service.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/fetch-api.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/compare-json.php');
 include_once(SALAH_PLUGIN_DIR . 'includes/cron-handler.php');
+include_once(SALAH_PLUGIN_DIR . 'includes/prayer-times-display.php');
 
 // Add the manual update button to the admin bar
 add_action('admin_bar_menu', function ($wp_admin_bar) {
@@ -40,6 +41,23 @@ add_action('admin_enqueue_scripts', function () {
         true
     );
     wp_localize_script('salah-admin-js', 'salahAjax', ['ajaxUrl' => admin_url('admin-ajax.php')]);
+});
+
+// Enqueue frontend styles and scripts
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style(
+        'salah-times-css',
+        plugins_url('assets/css/salah-times.css', __FILE__),
+        [],
+        '1.2'
+    );
+    wp_enqueue_script(
+        'salah-countdown-js',
+        plugins_url('assets/js/salah-countdown.js', __FILE__),
+        [],
+        '1.2',
+        true
+    );
 });
 
 // Register settings for the admin page
