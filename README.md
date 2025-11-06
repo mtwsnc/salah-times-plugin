@@ -77,9 +77,10 @@ All endpoints support an optional `date` parameter in ISO 8601 format.
 
 ## Technical Details
 
-- **Version**: 1.2
+- **Version**: 0.2.1
 - **Requires WordPress**: 5.0 or higher
 - **PHP Version**: 7.0 or higher
+- **License**: GPL v2 or later
 - **Cache Duration**: 1 hour (WordPress transients)
 - **Auto-refresh**: Midnight daily for new prayer times
 

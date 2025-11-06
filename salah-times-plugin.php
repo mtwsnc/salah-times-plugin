@@ -2,10 +2,14 @@
 /**
  * Plugin Name: Salah Times Plugin
  * Plugin URI: https://github.com/mtwsnc/salah-times-plugin
- * Description: Fetch and manage salah times from Ibrahim's remote API
- * Version: 1.2
+ * Description: Display Islamic prayer times with configurable API, real-time countdown, and current prayer highlighting
+ * Version: 0.2.1
  * Author: Abdur-Rahman Bilal (MTWSNC)
  * Author URI: https://github.com/aramb-dev
+ * Requires at least: 5.0
+ * Requires PHP: 7.0
+ * License: GPL v2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
 // Define the plugin directory
