@@ -5,6 +5,19 @@ All notable changes to the Salah Times Plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2025-11-06
+
+### Changed
+- Display only Iqamah times instead of both Adhan and Iqamah
+- Simplified table to 2 columns (Prayer | Time)
+- Use uppercase prayer names (FAJR, DHUHR, etc.)
+- Updated to work with new API structure (adhan/iqamah objects)
+- Current prayer and countdown now based on Iqamah times
+
+### Added
+- Manual Update button on settings page for easy prayer times refresh
+- Better error handling and user feedback in tools section
+
 ## [0.2.3] - 2025-11-06
 
 ### Fixed

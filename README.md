@@ -77,7 +77,7 @@ All endpoints support an optional `date` parameter in ISO 8601 format (YYYY-MM-D
 
 ## Technical Details
 
-- **Version**: 0.2.3
+- **Version**: 0.2.4
 - **Requires WordPress**: 5.0 or higher
 - **PHP Version**: 7.0 or higher
 - **License**: GPL v2 or later
